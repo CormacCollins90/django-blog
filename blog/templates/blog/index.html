@@ -1,8 +1,38 @@
 {% extends 'base.html' %}
-    {% block content %}
+{% load static from staticfiles %}
+
+{% block head_styles %}
+    {{ block.super }}
+
+<link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
     {% for post in posts %}
-    <p><a href="{% url 'read_post' post.id %}">{{ post }}</a><a href="{% url 'edit_post' post.id %}">  (Edit)</a></p> 
+        <div class="row">
+            <div class="col-md-2 col-sm-3 text-center">
+                <a class="story-img" href="#">
+                    <img src="{{ MEDIA_URL}}{{ post.author.profile.image }}" class="img-circle">
+                </a>
+                <p><span class="boldtext">Author:</span> {{ post.author.username }}</p>
+            </div>
+            <div class="col-md-10 col-sm-9">
+                <h3>{{ post.title }}</h3>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <p>{{ post.content|truncatewords:30 }}</p>
+                        <p><a href="{% url 'read_post' post.id %}"  class="btn btn-default">Read more</a></p>
+                        <p><span class="boldtext">Published on:</span> {{ post.published_date }} </p>
+                        <p><span class="boldtext">Views:</span> 4</p>
+                        <p><span class="boldtext">Tag:</span> history</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
     {% endfor %}
-{% endblock %}    
+{% endblock %} 
     
 
